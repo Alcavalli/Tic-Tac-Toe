@@ -7,5 +7,6 @@ namespace Constants
     constexpr int CELL_SIZE = 150;
 
     //* Window
+    // TODO: da sistemare il margine per eventuali scritte, punteggio e spazio extra
     constexpr int WINDOW_HEIGHT = CELL_SIZE * ROWS, WINDOW_WIDTH = CELL_SIZE * COLS;
 }

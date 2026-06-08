@@ -1,11 +1,14 @@
 enum class StatoGioco
 {
     InProgress,
-    GameOver
+    Player1Win,             //* win player 1
+    Player2Win,             //* win player 2
+    Draw
 };
 
-enum class Winner
+enum class Cell
 {
-    Player1,
-    Player2
+    Empty,
+    Player1,                //* player 1 symbol
+    Player2                 //* player 2 symbol
 };
