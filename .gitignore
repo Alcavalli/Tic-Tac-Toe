@@ -1,0 +1,14 @@
+# Build #?(ignora le cartelle build e cmake)
+build/
+.cmake/
+
+# Compilati Windows #?(ignora i vari compilati di windows temporanei)
+*.exe
+*.obj
+*.o
+
+# Cache CMake #?(ignora file "spazzatura" generati da CMake)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
