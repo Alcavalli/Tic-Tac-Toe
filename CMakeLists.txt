@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)        # versione minima necessaria di CMake
 
-project(Tris)
+project(Tic-Tac-Toe)
 
 set(CMAKE_CXX_STANDARD 17)                  # usa C++17
 set(CMAKE_CXX_STANDARD_REQUIRED True)       # non degradare a versioni precedenti
@@ -10,7 +10,7 @@ include_directories(include)                # cerca gli header in include/
 add_executable(main                         # crea main.exe a partire dai file indicati
     src/main.cpp
     src/Game.cpp
-    src/Griglia.cpp
+    src/Grid.cpp
     src/Renderer.cpp
     src/AI.cpp
 )
