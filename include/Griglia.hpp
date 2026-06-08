@@ -7,10 +7,11 @@
 class Grid
 {
 private:
-    std::array<std::array<CellStatus, Constants::ROWS>, Constants::COLS> griglia{};
+    std::array<std::array<CellStatus, Constants::COLS>, Constants::ROWS> griglia{};
+    //! {} inizializza tutto a zero (primo elemento, Empty) così da evitare valori spazzatura
 
 public:
     Grid();
-    const CellStatus& const getCell() const;
-    void setCell(const CellStatus& nuovo_stato);
+    const CellStatus& getCell(int row, int col) const;              //! bastano 2 const
+    void setCell(int row, int col, CellStatus nuovo_stato);         //! per i tipi semplici si può passare anche solo per valore (senza const&)
 };

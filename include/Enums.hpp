@@ -1,4 +1,4 @@
-enum class StatoGioco
+enum class GameStatus
 {
     InProgress,
     Player1Win,             //* win player 1
