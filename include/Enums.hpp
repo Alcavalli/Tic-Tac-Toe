@@ -6,7 +6,7 @@ enum class StatoGioco
     Draw
 };
 
-enum class Cell
+enum class CellStatus
 {
     Empty,
     Player1,                //* player 1 symbol
