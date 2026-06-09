@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game(GameMode mode, Difficulty diff) : mode(mode), difficulty(diff), window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), "Tic-Tac-Toe") {}
+Game::Game(GameMode mode, Difficulty diff) : mode(mode), environment(diff), window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), "Tic-Tac-Toe") {}
 
 void Game::run()
 {
