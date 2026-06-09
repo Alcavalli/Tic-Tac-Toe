@@ -7,12 +7,12 @@ class Renderer
 {
 private:
     sf::Font font;
-    sf::Text testo_game_over, testo_turno, testo_punteggio, testo_restart;
-    sf::Clock lampeggio;
-    bool visibile{};
-    sf::Vector2f toPixel(const sf::Vector2i& cella) const;
+    sf::Text text_gameOver, text_turno, text_punteggio, text_restart;
+    sf::Clock blink;
+    bool textStatus{};
+    sf::Vector2f toPixel(const sf::Vector2i& cell) const;
 
 public:
     Renderer();
-    void render(sf::RenderWindow& window, const Grid& table, const GameStatus& stato_gioco, const CellStatus& turno_corrente);
+    void render(sf::RenderWindow& window, const Grid& table, GameStatus stato_gioco, CellStatus turno_corrente);
 };
