@@ -11,6 +11,11 @@ void Grid::setCell(int row, int col, CellStatus nuovo_stato)
         table[row][col] = nuovo_stato;
 }
 
+void Grid::clearCell(int row, int col)
+{
+    table[row][col] = CellStatus::Empty;
+}
+
 CellStatus Grid::checkWinner() const
 {
     for (int i{}; i < Constants::ROWS; ++i)
