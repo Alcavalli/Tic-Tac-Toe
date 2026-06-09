@@ -1,8 +1,7 @@
 #include "AI.hpp"
 #include <vector>
-#include <random>
 
-AI::AI(Difficulty diff) : difficulty(diff) {}
+AI::AI(Difficulty diff) : difficulty(diff), rng(std::random_device{}()) {}
 
 int AI::minimax(Grid table, bool is_maximizing)
 {
@@ -45,9 +44,17 @@ int AI::minimax(Grid table, bool is_maximizing)
 
 std::pair<int, int> AI::randomMove(const Grid &table)
 {
+    std::vector<std::pair<int, int>> empty_cells;
+    for (int i{}; i < Constants::ROWS; ++i)
+        for (int j{}; j < Constants::COLS; ++j)
+            if (table.getCell(i, j) == CellStatus::Empty)
+                empty_cells.push_back({i, j});
+
+    std::uniform_int_distribution<int> dis(0, empty_cells.size() - 1);
+    return empty_cells[dis(rng)];
 }
 
-std::pair<int, int> AI::makeMove(const Grid &table)
+std::pair<int, int> AI::getBestMove(const Grid &table)
 {
     int best{-11};          //* Peggio del risultato peggiore possibile
     std::pair<int, int> best_move{-1, -1};
@@ -66,4 +73,27 @@ std::pair<int, int> AI::makeMove(const Grid &table)
                 }
             }
     return best_move;
+}
+
+std::pair<int, int> AI::makeMove(const Grid& table)
+{
+    switch(difficulty)
+    {
+        case Difficulty::Easy:
+            return randomMove(table);
+            break;
+        case Difficulty::Medium:
+        {
+            std::uniform_int_distribution<int> dis(0, 1);
+            if (dis(rng))
+                return randomMove(table);
+            else
+                return getBestMove(table);
+            break;
+        }
+        case Difficulty::Hard:
+            return getBestMove(table);
+            break;
+    }
+    return getBestMove(table);          //! Per evutare problemi in caso di fallback
 }
