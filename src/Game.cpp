@@ -33,18 +33,39 @@ void Game::processInput()
 
 void Game::update(int row, int col)
 {
-    if (table.getCell(row, col) != CellStatus::Empty || stato_gioco != GameStatus::InProgress)
+    if (stato_gioco != GameStatus::InProgress)
         return;
-    else
+    if (table.getCell(row, col) != CellStatus::Empty)
+        return;
+
+    table.setCell(row, col, turno_corrente);
+    switch (table.checkWinner())
     {
-        table.setCell(row, col, turno_corrente);
+    case CellStatus::Empty:
+        if (table.isFull())
+            stato_gioco = GameStatus::Draw;
+        else
+            turno_corrente = (turno_corrente == CellStatus::Player1) ? CellStatus::Player2 : CellStatus::Player1;
+        break;
+    case CellStatus::Player1:
+        stato_gioco = GameStatus::Player1Win;
+        break;
+    case CellStatus::Player2:
+        stato_gioco = GameStatus::Player2Win;
+        break;
+    }
+
+    if (mode == GameMode::PvE && stato_gioco == GameStatus::InProgress)
+    {
+        auto [row_ai, col_ai] = environment.makeMove(table);
+        table.setCell(row_ai, col_ai, CellStatus::Player2);
         switch (table.checkWinner())
         {
         case CellStatus::Empty:
             if (table.isFull())
                 stato_gioco = GameStatus::Draw;
             else
-                turno_corrente = (turno_corrente == CellStatus::Player1) ? CellStatus::Player2 : CellStatus::Player1;
+                turno_corrente = CellStatus::Player1;
             break;
         case CellStatus::Player1:
             stato_gioco = GameStatus::Player1Win;
@@ -58,6 +79,7 @@ void Game::update(int row, int col)
 
 void Game::render()
 {
+    renderer.render(window, table, stato_gioco, turno_corrente);
 }
 
 void Game::reset()

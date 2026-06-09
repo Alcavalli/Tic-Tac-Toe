@@ -77,7 +77,7 @@ std::pair<int, int> AI::getBestMove(const Grid &table)
 
 std::pair<int, int> AI::makeMove(const Grid& table)
 {
-    switch(difficulty)
+    switch (difficulty)
     {
         case Difficulty::Easy:
             return randomMove(table);
