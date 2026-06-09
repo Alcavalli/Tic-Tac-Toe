@@ -17,10 +17,10 @@ private:
     unsigned int punteggio_1{}, punteggio_2{};
 
 public:
-    Game(GameMode mode, Difficulty diff, sf::RenderWindow& window);
+    Game(GameMode mode, Difficulty diff);
     void run();
     void processInput();
-    void update();
+    void update(int row, int col);
     void render();
     void reset();
 };
