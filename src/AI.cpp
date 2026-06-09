@@ -1,4 +1,6 @@
 #include "AI.hpp"
+#include <vector>
+#include <random>
 
 AI::AI(Difficulty diff) : difficulty(diff) {}
 
@@ -47,4 +49,21 @@ std::pair<int, int> AI::randomMove(const Grid &table)
 
 std::pair<int, int> AI::makeMove(const Grid &table)
 {
+    int best{-11};          //* Peggio del risultato peggiore possibile
+    std::pair<int, int> best_move{-1, -1};
+
+    for (int i{}; i < Constants::ROWS; ++i)
+        for (int j{}; j < Constants::COLS; ++j)
+            if (table.getCell(i, j) == CellStatus::Empty)
+            {
+                Grid table_copy{table};
+                table_copy.setCell(i, j, CellStatus::Player2);      //! Serve una copia della griglia per poter inserire il segno
+                int score{minimax(table_copy, false)};
+                if (score > best)
+                {
+                    best = score;
+                    best_move = {i ,j};
+                }
+            }
+    return best_move;
 }
