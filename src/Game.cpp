@@ -1,10 +1,10 @@
 #include "Game.hpp"
 
-Game::Game(GameMode mode, Difficulty diff) : mode(mode), difficulty(diff) {}    // TODO: manca la window
+Game::Game(GameMode mode, Difficulty diff, sf::RenderWindow& window) : mode(mode), difficulty(diff), window(sf::VideoMode({Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT}), "Tic-Tac-Toe") {}
 
 void Game::run()
 {
-    while (true)        // TODO: manca la window, while (window.isOpen())
+    while (window.isOpen())
     {
         // 1. Input
         processInput();
