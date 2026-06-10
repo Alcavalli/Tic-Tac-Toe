@@ -8,7 +8,7 @@ class Renderer
 {
 private:
     sf::Font font;
-    std::optional<sf::Text> text_gameOver, text_turno, text_punteggio, text_restart;
+    std::optional<sf::Text> text_gameOver, text_turno, text_restart, symbol_X, symbol_O;
     sf::RectangleShape background, v_line1, v_line2, h_line1, h_line2;
     sf::Clock blink;
     bool textStatus{};

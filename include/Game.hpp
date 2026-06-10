@@ -12,7 +12,6 @@ private:
     GameMode mode;           //! default in caso di fallback, va nel constructor
     AI environment;
     Grid table;
-    unsigned int punteggio_1{}, punteggio_2{};
     sf::RenderWindow window;
     Renderer renderer;
 
