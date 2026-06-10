@@ -54,8 +54,8 @@ Renderer::Renderer()
     symbol_O.emplace(font);
     symbol_X->setString("X");
     symbol_O->setString("O");
-    symbol_X->setCharacterSize(static_cast<float>(Constants::CELL_SIZE) - 40);
-    symbol_O->setCharacterSize(static_cast<float>(Constants::CELL_SIZE) - 40);
+    symbol_X->setCharacterSize(Constants::CELL_SIZE - 40);
+    symbol_O->setCharacterSize(Constants::CELL_SIZE - 40);
     symbol_X->setFillColor(sf::Color::Red);
     symbol_O->setFillColor(sf::Color::Cyan);
     sf::FloatRect bounds_symbol_X{symbol_X->getLocalBounds()};
@@ -86,7 +86,7 @@ void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus st
         {
             if (table.getCell(i, j) == CellStatus::Empty)   continue;
 
-            std::optional<sf::Text> symbol{(table.getCell(i, j) == CellStatus::Player1) ? symbol_X : symbol_O};
+            sf::Text *symbol = (table.getCell(i, j) == CellStatus::Player1) ? &(*symbol_X) : &(*symbol_O);
             symbol->setPosition({static_cast<float>(Constants::CELL_SIZE) * j + static_cast<float>(Constants::CELL_SIZE) / 2, static_cast<float>(Constants::CELL_SIZE) * i + static_cast<float>(Constants::CELL_SIZE) / 2});
             window.draw(*symbol);
         }
