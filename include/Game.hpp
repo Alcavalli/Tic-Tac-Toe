@@ -9,7 +9,7 @@ class Game
 private:
     GameStatus stato_gioco{GameStatus::InProgress};
     CellStatus turno_corrente{CellStatus::Player1};
-    GameMode mode{GameMode::PvP};           //! default in caso di fallback, va nel constructor
+    GameMode mode;           //! default in caso di fallback, va nel constructor
     AI environment;
     Grid table;
     unsigned int punteggio_1{}, punteggio_2{};
@@ -17,7 +17,7 @@ private:
     Renderer renderer;
 
 public:
-    Game(GameMode mode, Difficulty diff);
+    Game(GameMode mode = GameMode::PvE, Difficulty diff = Difficulty::Easy);
     void run();
     void processInput();
     void update(int row, int col);
