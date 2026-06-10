@@ -43,12 +43,12 @@ Renderer::Renderer()
     text_turno->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f - 40.f});
 
     text_restart.emplace(font);
-    text_restart->setString("Game Over");
+    text_restart->setString("Press any key to restart...");
     text_restart->setCharacterSize(40);
     text_restart->setFillColor(sf::Color(230, 255, 255));
     sf::FloatRect bounds_restart{text_restart->getLocalBounds()};
     text_restart->setOrigin({(bounds_restart.position.x + bounds_restart.size.x) / 2.f, (bounds_restart.position.y + bounds_restart.size.y) / 2.f});
-    text_restart->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f + 40.f});
+    text_restart->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f + 80.f});
 
     symbol_X.emplace(font);
     symbol_O.emplace(font);

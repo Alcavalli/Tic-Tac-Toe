@@ -33,6 +33,8 @@ void Game::processInput()
 
 void Game::update(int row, int col)
 {
+    if (row < 0 || row >= Constants::ROWS || col < 0 || col >= Constants::COLS)
+        return;
     if (stato_gioco != GameStatus::InProgress)
         return;
     if (table.getCell(row, col) != CellStatus::Empty)
