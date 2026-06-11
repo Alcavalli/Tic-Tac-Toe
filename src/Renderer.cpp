@@ -14,10 +14,10 @@ Renderer::Renderer()
     background.setPosition({0, 0});
 
     //* Creazione della griglia
-    v_line1.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGHT)});
-    v_line2.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGHT)});
-    h_line1.setSize({static_cast<float>(Constants::LINES_LENGHT), static_cast<float>(Constants::LINES_WIDTH)});
-    h_line2.setSize({static_cast<float>(Constants::LINES_LENGHT), static_cast<float>(Constants::LINES_WIDTH)});
+    v_line1.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGTH)});
+    v_line2.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGTH)});
+    h_line1.setSize({static_cast<float>(Constants::LINES_LENGTH), static_cast<float>(Constants::LINES_WIDTH)});
+    h_line2.setSize({static_cast<float>(Constants::LINES_LENGTH), static_cast<float>(Constants::LINES_WIDTH)});
     v_line1.setFillColor(sf::Color(3, 3, 48));
     v_line2.setFillColor(sf::Color(3, 3, 48));
     h_line1.setFillColor(sf::Color(3, 3, 48));
@@ -33,7 +33,7 @@ Renderer::Renderer()
     text_gameOver->setCharacterSize(80);
     text_gameOver->setFillColor(sf::Color(153, 0, 0));
     sf::FloatRect bounds_gameOver{text_gameOver->getLocalBounds()};
-    text_gameOver->setOrigin({(bounds_gameOver.position.x + bounds_gameOver.size.x) / 2.f, (bounds_gameOver.position.y + bounds_gameOver.size.y) / 2.f});    //! I bounds hanno ora come metodi .position.x/y e .size.x/y, e setOrigin accetta un sf::Vector2f
+    text_gameOver->setOrigin({bounds_gameOver.position.x + bounds_gameOver.size.x / 2.f, bounds_gameOver.position.y + bounds_gameOver.size.y / 2.f});    //! I bounds hanno ora come metodi .position.x/y e .size.x/y, e setOrigin accetta un sf::Vector2f
     text_gameOver->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f});
     //! Occhio alle graffe, in SFML 3 accetta un sf::Vector2f, non 2 float (come per setOrigin)
 
@@ -47,7 +47,7 @@ Renderer::Renderer()
     text_restart->setCharacterSize(40);
     text_restart->setFillColor(sf::Color(230, 255, 255));
     sf::FloatRect bounds_restart{text_restart->getLocalBounds()};
-    text_restart->setOrigin({(bounds_restart.position.x + bounds_restart.size.x) / 2.f, (bounds_restart.position.y + bounds_restart.size.y) / 2.f});
+    text_restart->setOrigin({bounds_restart.position.x + bounds_restart.size.x / 2.f, bounds_restart.position.y + bounds_restart.size.y / 2.f});
     text_restart->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f + 80.f});
 
     symbol_X.emplace(font);
@@ -59,9 +59,9 @@ Renderer::Renderer()
     symbol_X->setFillColor(sf::Color::Red);
     symbol_O->setFillColor(sf::Color::Cyan);
     sf::FloatRect bounds_symbol_X{symbol_X->getLocalBounds()};
-    symbol_X->setOrigin({(bounds_symbol_X.position.x + bounds_symbol_X.size.x) / 2.f, (bounds_symbol_X.position.y + bounds_symbol_X.size.y) / 2.f});
+    symbol_X->setOrigin({bounds_symbol_X.position.x + bounds_symbol_X.size.x / 2.f, bounds_symbol_X.position.y + bounds_symbol_X.size.y / 2.f});
     sf::FloatRect bounds_symbol_O{symbol_O->getLocalBounds()};
-    symbol_O->setOrigin({(bounds_symbol_O.position.x + bounds_symbol_O.size.x) / 2.f, (bounds_symbol_O.position.y + bounds_symbol_O.size.y) / 2.f});
+    symbol_O->setOrigin({bounds_symbol_O.position.x + bounds_symbol_O.size.x / 2.f, bounds_symbol_O.position.y + bounds_symbol_O.size.y / 2.f});
 }
 
 sf::Vector2f Renderer::toPixel(const sf::Vector2i &cell) const

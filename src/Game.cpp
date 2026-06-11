@@ -94,7 +94,7 @@ void Game::render()
 
 void Game::reset()
 {
-    stato_gioco = GameStatus::Menu;
+    stato_gioco = GameStatus::InProgress;
     turno_corrente = CellStatus::Player1;
     table = Grid();
 }
