@@ -11,7 +11,7 @@ Button::Button(sf::Vector2f dim, sf::Vector2f pos, const std::string& label, con
 
     button_text.emplace(font);
     button_text->setString(label);
-    button_text->setCharacterSize(50);
+    button_text->setCharacterSize(35);
     button_text->setFillColor(sf::Color::Black);
     sf::Rect button_bounds{button_text->getLocalBounds()};
     button_text->setOrigin({button_bounds.position.x + button_bounds.size.x / 2.f, button_bounds.position.y + button_bounds.size.y / 2.f});

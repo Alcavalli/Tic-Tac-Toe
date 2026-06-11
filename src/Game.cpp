@@ -111,7 +111,7 @@ void Game::processInput()
                     if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
                         stato_gioco = GameStatus::Menu;
                     else
-                        update(mouseClick->position.y / Constants::CELL_SIZE, mouseClick->position.x / Constants::CELL_SIZE); //! Ricorda: riga e colonna, quindi y e x (non x e y)
+                        update((mouseClick->position.y - Constants::GRID_OFFSET_Y) / Constants::CELL_SIZE, (mouseClick->position.x - Constants::GRID_OFFSET_X) / Constants::CELL_SIZE); //! Ricorda: riga e colonna, quindi y e x (non x e y)
                     break;
                 default:
                     break;

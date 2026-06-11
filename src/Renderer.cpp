@@ -14,15 +14,15 @@ Renderer::Renderer()
     background.setPosition({0.f, 0.f});
 
     //* Creazione dei bottoni
-    btn_pvp.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, 50.f}, "PvP", font);
-    btn_easy.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f - 75.f}, "AI Easy", font);
-    btn_mid.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f + 75.f}, "AI Medium", font);
-    btn_hard.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) - 50.f}, "AI Hard", font);
-    btn_first.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f - 75.f}, "You start", font);
-    btn_second.emplace(sf::Vector2f{200.f, 80.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f + 75.f}, "AI starts", font);
-    btn_back.emplace(sf::Vector2f{100.f, 60.f}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) - 50.f, static_cast<float>(Constants::WINDOW_HEIGHT) - 50.f}, "BACK", font);
+    btn_pvp.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, Constants::SEMI_DIS_BUTTONS * 2.f + Constants::BUTTONS_HEIGHT / 2.f}, "PvP", font);
+    btn_easy.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f - Constants::SEMI_DIS_BUTTONS - Constants::BUTTONS_HEIGHT / 2.f}, "AI Easy", font);
+    btn_mid.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f + Constants::SEMI_DIS_BUTTONS + Constants::BUTTONS_HEIGHT / 2.f}, "AI Medium", font);
+    btn_hard.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) - Constants::SEMI_DIS_BUTTONS * 2.f - Constants::BUTTONS_HEIGHT / 2.f}, "AI Hard", font);
+    btn_first.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f - Constants::SEMI_DIS_BUTTONS - Constants::BUTTONS_HEIGHT / 2.f}, "You start", font);
+    btn_second.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f + Constants::SEMI_DIS_BUTTONS + Constants::BUTTONS_HEIGHT / 2.f}, "AI starts", font);
+    btn_back.emplace(sf::Vector2f{100.f, 60.f}, sf::Vector2f{static_cast<float>(Constants::GRID_OFFSET_X) / 2.f, static_cast<float>(Constants::GRID_OFFSET_Y) / 2.f}, "BACK", font);
 
-    //* Creazione della griglia
+    //* Creazione delle linee della griglia
     v_line1.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGTH)});
     v_line2.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGTH)});
     h_line1.setSize({static_cast<float>(Constants::LINES_LENGTH), static_cast<float>(Constants::LINES_WIDTH)});
@@ -31,10 +31,10 @@ Renderer::Renderer()
     v_line2.setFillColor(sf::Color(3, 3, 48));
     h_line1.setFillColor(sf::Color(3, 3, 48));
     h_line2.setFillColor(sf::Color(3, 3, 48));
-    v_line1.setPosition({static_cast<float>(Constants::CELL_SIZE), 0.f});
-    v_line2.setPosition({static_cast<float>(Constants::CELL_SIZE) * 2.f + Constants::LINES_WIDTH, 0.f});
-    h_line1.setPosition({0.f, static_cast<float>(Constants::CELL_SIZE)});
-    h_line2.setPosition({0.f, static_cast<float>(Constants::CELL_SIZE) * 2.f + Constants::LINES_WIDTH});
+    v_line1.setPosition({static_cast<float>(Constants::CELL_SIZE) + Constants::GRID_OFFSET_X, Constants::GRID_OFFSET_Y});
+    v_line2.setPosition({static_cast<float>(Constants::CELL_SIZE) * 2.f + Constants::LINES_WIDTH + Constants::GRID_OFFSET_X, Constants::GRID_OFFSET_Y});
+    h_line1.setPosition({Constants::GRID_OFFSET_X, static_cast<float>(Constants::CELL_SIZE) + Constants::GRID_OFFSET_Y});
+    h_line2.setPosition({Constants::GRID_OFFSET_X, static_cast<float>(Constants::CELL_SIZE) * 2.f + Constants::LINES_WIDTH + Constants::GRID_OFFSET_Y});
 
     //* Creazione dei testi (invarianti)
     text_gameOver.emplace(font);           //* Si usa .emplace
@@ -70,7 +70,7 @@ Renderer::Renderer()
 
 sf::Vector2f Renderer::toPixel(const sf::Vector2i &cell) const
 {
-    return sf::Vector2f(static_cast<float>(cell.x) * Constants::CELL_SIZE, static_cast<float>(cell.y) * Constants::CELL_SIZE);
+    return sf::Vector2f(static_cast<float>(cell.x) * Constants::CELL_SIZE + Constants::GRID_OFFSET_X, static_cast<float>(cell.y) * Constants::CELL_SIZE + Constants::GRID_OFFSET_Y);
 }
 
 void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus stato_gioco, CellStatus turno_corrente)
@@ -108,7 +108,7 @@ void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus st
                     continue;
 
                 sf::Text *symbol = (table.getCell(i, j) == CellStatus::Player1) ? &(*symbol_X) : &(*symbol_O);
-                symbol->setPosition({static_cast<float>(Constants::CELL_SIZE) * j + static_cast<float>(Constants::CELL_SIZE) / 2, static_cast<float>(Constants::CELL_SIZE) * i + static_cast<float>(Constants::CELL_SIZE) / 2});
+                symbol->setPosition({static_cast<float>(Constants::CELL_SIZE) * j + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::GRID_OFFSET_X, static_cast<float>(Constants::CELL_SIZE) * i + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::GRID_OFFSET_Y});
                 window.draw(*symbol);
             }
             break;
