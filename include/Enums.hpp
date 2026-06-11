@@ -8,6 +8,17 @@ enum class GameStatus
     Draw
 };
 
+enum class ButtonTypes
+{
+    PvP,
+    Easy,
+    Mid,
+    Hard,
+    First,
+    Second,
+    Back
+};
+
 enum class CellStatus
 {
     Empty,

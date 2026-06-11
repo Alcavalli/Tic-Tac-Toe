@@ -45,8 +45,66 @@ void Game::processInput()
             window.close();
 
         if (const auto *mouseClick{event->getIf<sf::Event::MouseButtonPressed>()})
+        {
             if (mouseClick->button == sf::Mouse::Button::Left)
-                update(mouseClick->position.y / Constants::CELL_SIZE, mouseClick->position.x / Constants::CELL_SIZE);       //! Ricorda: riga e colonna, quindi y e x (non x e y)
+            {
+                sf::Vector2i pos = mouseClick->position;
+                switch (stato_gioco)
+                {
+                case GameStatus::Menu:
+                    if (renderer.getButton(ButtonTypes::PvP)->isClicked(pos))
+                    {
+                        mode = GameMode::PvP;
+                        stato_gioco = GameStatus::InProgress;
+                    }
+                    else if (renderer.getButton(ButtonTypes::Easy)->isClicked(pos))
+                    {
+                        mode = GameMode::PvE;
+                        environment = AI(Difficulty::Easy);
+                        stato_gioco = GameStatus::OrderSelection;
+                    }
+                    else if (renderer.getButton(ButtonTypes::Mid)->isClicked(pos))
+                    {
+                        mode = GameMode::PvE;
+                        environment = AI(Difficulty::Medium);
+                        stato_gioco = GameStatus::OrderSelection;
+                    }
+                    else if (renderer.getButton(ButtonTypes::Hard)->isClicked(pos))
+                    {
+                        mode = GameMode::PvE;
+                        environment = AI(Difficulty::Hard);
+                        stato_gioco = GameStatus::OrderSelection;
+                    }
+                    break;
+                case GameStatus::OrderSelection:
+                    if (renderer.getButton(ButtonTypes::First)->isClicked(pos))
+                    {
+                        turno_corrente = CellStatus::Player1;
+                        stato_gioco = GameStatus::InProgress;
+                    }
+                    else if (renderer.getButton(ButtonTypes::Second)->isClicked(pos))
+                    {
+                        turno_corrente = CellStatus::Player2;
+                        stato_gioco = GameStatus::InProgress;
+                    }
+                    else if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
+                    {
+                        mode = GameMode::PvE;
+                        environment = AI(Difficulty::Easy);
+                        stato_gioco = GameStatus::Menu;
+                    }
+                    break;
+                case GameStatus::InProgress:
+                    if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
+                        stato_gioco = GameStatus::OrderSelection;
+                    else
+                        update(mouseClick->position.y / Constants::CELL_SIZE, mouseClick->position.x / Constants::CELL_SIZE);   //! Ricorda: riga e colonna, quindi y e x (non x e y)
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
 
         if (const auto *keyPress{event->getIf<sf::Event::KeyPressed>()})
             if (stato_gioco != GameStatus::InProgress)

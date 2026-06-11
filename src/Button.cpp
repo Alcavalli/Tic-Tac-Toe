@@ -18,7 +18,7 @@ Button::Button(sf::Vector2f dim, sf::Vector2f pos, const std::string& label, con
     button_text->setPosition({shape.getPosition().x, shape.getPosition().y});
 }
 
-bool Button::isClicked(sf::Vector2i pos)
+bool Button::isClicked(sf::Vector2i pos) const
 {
     return shape.getGlobalBounds().contains(sf::Vector2f(pos));
 }

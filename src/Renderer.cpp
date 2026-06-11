@@ -128,3 +128,32 @@ void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus st
     // 3. Mostrare il frame
     window.display();
 }
+
+const Button* Renderer::getButton(ButtonTypes btn) const
+{
+    switch (btn)
+    {
+    case ButtonTypes::PvP:
+        return &(*btn_pvp);
+        break;
+    case ButtonTypes::Easy:
+        return &(*btn_easy);
+        break;
+    case ButtonTypes::Mid:
+        return &(*btn_mid);
+        break;
+    case ButtonTypes::Hard:
+        return &(*btn_hard);
+        break;
+    case ButtonTypes::First:
+        return &(*btn_first);
+        break;
+    case ButtonTypes::Second:
+        return &(*btn_second);
+        break;
+    case ButtonTypes::Back:
+        return &(*btn_back);
+        break;
+    }
+    return nullptr;
+}

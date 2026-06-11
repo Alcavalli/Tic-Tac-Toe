@@ -19,4 +19,5 @@ private:
 public:
     Renderer();
     void render(sf::RenderWindow& window, const Grid& table, GameStatus stato_gioco, CellStatus turno_corrente);
+    const Button* getButton(ButtonTypes btn) const;
 };
