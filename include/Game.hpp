@@ -7,14 +7,14 @@
 class Game
 {
 private:
-    GameStatus stato_gioco{GameStatus::Menu};
+    GameStatus stato_gioco{GameStatus::Menu}, prossimo_stato{GameStatus::Menu};
     CellStatus turno_corrente{CellStatus::Player1};
     GameMode mode;           //! default in caso di fallback, va nel constructor
     AI environment;
     Grid table;
     sf::RenderWindow window;
-    sf::Clock ai_clock;
-    bool ai_waiting{};
+    sf::Clock ai_clock, restart_clock;
+    bool ai_waiting{}, restart_waiting{};
     Renderer renderer;
 
 public:

@@ -13,26 +13,36 @@ void Game::run()
         if (ai_waiting && ai_clock.getElapsedTime().asMilliseconds() >= 500)
         {
             ai_waiting = false;
-            auto [row_ai, col_ai] = environment.makeMove(table);
-            table.setCell(row_ai, col_ai, CellStatus::Player2);
-            switch (table.checkWinner())
+            if (stato_gioco == GameStatus::InProgress && !restart_waiting)
             {
-            case CellStatus::Empty:
-                if (table.isFull())
-                    stato_gioco = GameStatus::Draw;
-                else
-                    turno_corrente = CellStatus::Player1;
-                break;
-            case CellStatus::Player1:
-                stato_gioco = GameStatus::Player1Win;
-                break;
-            case CellStatus::Player2:
-                stato_gioco = GameStatus::Player2Win;
-                break;
+                auto [row_ai, col_ai] = environment.makeMove(table);
+                table.setCell(row_ai, col_ai, CellStatus::Player2);
+                switch (table.checkWinner())
+                {
+                case CellStatus::Empty:
+                    if (table.isFull())
+                        stato_gioco = GameStatus::Draw;
+                    else
+                        turno_corrente = CellStatus::Player1;
+                    break;
+                case CellStatus::Player1:
+                    stato_gioco = GameStatus::Player1Win;
+                    break;
+                case CellStatus::Player2:
+                    stato_gioco = GameStatus::Player2Win;
+                    break;
+                }
             }
         }
 
-        // 3. Renderer
+        // 3. Delay game over
+        if (restart_waiting && restart_clock.getElapsedTime().asMilliseconds() >= 750)
+        {
+            restart_waiting = false;
+            stato_gioco = prossimo_stato;
+        }
+
+        // 4. Renderer
         render();
     }
 }
@@ -101,7 +111,7 @@ void Game::processInput()
                     if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
                         stato_gioco = GameStatus::Menu;
                     else
-                        update(mouseClick->position.y / Constants::CELL_SIZE, mouseClick->position.x / Constants::CELL_SIZE);   //! Ricorda: riga e colonna, quindi y e x (non x e y)
+                        update(mouseClick->position.y / Constants::CELL_SIZE, mouseClick->position.x / Constants::CELL_SIZE); //! Ricorda: riga e colonna, quindi y e x (non x e y)
                     break;
                 default:
                     break;
@@ -110,7 +120,7 @@ void Game::processInput()
         }
 
         if (const auto *keyPress{event->getIf<sf::Event::KeyPressed>()})
-            if (stato_gioco != GameStatus::InProgress)
+            if (stato_gioco != GameStatus::InProgress && stato_gioco != GameStatus::Menu && stato_gioco != GameStatus::OrderSelection && !restart_waiting)
                 reset();
     }
 }
@@ -129,15 +139,23 @@ void Game::update(int row, int col)
     {
     case CellStatus::Empty:
         if (table.isFull())
-            stato_gioco = GameStatus::Draw;
+        {
+            prossimo_stato = GameStatus::Draw;
+            restart_waiting = true;
+            restart_clock.restart();
+        }
         else
             turno_corrente = (turno_corrente == CellStatus::Player1) ? CellStatus::Player2 : CellStatus::Player1;
         break;
     case CellStatus::Player1:
-        stato_gioco = GameStatus::Player1Win;
+        prossimo_stato = GameStatus::Player1Win;
+        restart_waiting = true;
+        restart_clock.restart();
         break;
     case CellStatus::Player2:
-        stato_gioco = GameStatus::Player2Win;
+        prossimo_stato = GameStatus::Player2Win;
+        restart_waiting = true;
+        restart_clock.restart();
         break;
     }
 

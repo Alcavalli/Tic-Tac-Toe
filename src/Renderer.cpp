@@ -46,11 +46,6 @@ Renderer::Renderer()
     text_gameOver->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f});
     //! Occhio alle graffe, in SFML 3 accetta un sf::Vector2f, non 2 float (come per setOrigin)
 
-    text_turno.emplace(font);
-    text_turno->setCharacterSize(60);
-    text_turno->setFillColor(sf::Color::Green);
-    text_turno->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f - 40.f});
-
     text_restart.emplace(font);
     text_restart->setString("Press any key to restart...");
     text_restart->setCharacterSize(40);
@@ -121,7 +116,13 @@ void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus st
     case GameStatus::Player2Win:
     case GameStatus::Draw:
         window.draw(*text_gameOver); //! Siccome sono stati fatti con optional serve dereferenziare
-        window.draw(*text_restart);
+        if (blink.getElapsedTime().asMilliseconds() >= 500)
+        {
+            text_status = !text_status;
+            blink.restart();
+        }
+        if (text_status)
+            window.draw(*text_restart);
         break;
     }
 
