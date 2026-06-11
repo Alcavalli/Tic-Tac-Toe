@@ -20,7 +20,7 @@ Renderer::Renderer()
     btn_hard.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) - Constants::SEMI_DIS_BUTTONS * 2.f - Constants::BUTTONS_HEIGHT / 2.f}, "AI Hard", font);
     btn_first.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f - Constants::SEMI_DIS_BUTTONS - Constants::BUTTONS_HEIGHT / 2.f}, "You start", font);
     btn_second.emplace(sf::Vector2f{Constants::BUTTON_WIDTH, Constants::BUTTONS_HEIGHT}, sf::Vector2f{static_cast<float>(Constants::WINDOW_WIDTH) / 2.f, static_cast<float>(Constants::WINDOW_HEIGHT) / 2.f + Constants::SEMI_DIS_BUTTONS + Constants::BUTTONS_HEIGHT / 2.f}, "AI starts", font);
-    btn_back.emplace(sf::Vector2f{100.f, 60.f}, sf::Vector2f{static_cast<float>(Constants::GRID_OFFSET_X) / 2.f, static_cast<float>(Constants::GRID_OFFSET_Y) / 2.f}, "BACK", font);
+    btn_back.emplace(sf::Vector2f{100.f, 60.f}, sf::Vector2f{65.f, 45.f}, "BACK", font);
 
     //* Creazione delle linee della griglia
     v_line1.setSize({static_cast<float>(Constants::LINES_WIDTH), static_cast<float>(Constants::LINES_LENGTH)});
@@ -49,7 +49,7 @@ Renderer::Renderer()
     text_restart.emplace(font);
     text_restart->setString("Press any key to restart...");
     text_restart->setCharacterSize(40);
-    text_restart->setFillColor(sf::Color(230, 255, 255));
+    text_restart->setFillColor(sf::Color::Black);
     sf::FloatRect bounds_restart{text_restart->getLocalBounds()};
     text_restart->setOrigin({bounds_restart.position.x + bounds_restart.size.x / 2.f, bounds_restart.position.y + bounds_restart.size.y / 2.f});
     text_restart->setPosition({Constants::WINDOW_WIDTH / 2.f, Constants::WINDOW_HEIGHT / 2.f + 80.f});
@@ -61,7 +61,7 @@ Renderer::Renderer()
     symbol_X->setCharacterSize(Constants::CELL_SIZE - 40);
     symbol_O->setCharacterSize(Constants::CELL_SIZE - 40);
     symbol_X->setFillColor(sf::Color::Red);
-    symbol_O->setFillColor(sf::Color::Cyan);
+    symbol_O->setFillColor(sf::Color(3, 140, 252));
     sf::FloatRect bounds_symbol_X{symbol_X->getLocalBounds()};
     symbol_X->setOrigin({bounds_symbol_X.position.x + bounds_symbol_X.size.x / 2.f, bounds_symbol_X.position.y + bounds_symbol_X.size.y / 2.f});
     sf::FloatRect bounds_symbol_O{symbol_O->getLocalBounds()};
@@ -108,7 +108,7 @@ void Renderer::render(sf::RenderWindow &window, const Grid &table, GameStatus st
                     continue;
 
                 sf::Text *symbol = (table.getCell(i, j) == CellStatus::Player1) ? &(*symbol_X) : &(*symbol_O);
-                symbol->setPosition({static_cast<float>(Constants::CELL_SIZE) * j + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::GRID_OFFSET_X, static_cast<float>(Constants::CELL_SIZE) * i + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::GRID_OFFSET_Y});
+                symbol->setPosition({static_cast<float>(Constants::CELL_SIZE) * j + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::LINES_WIDTH * j + Constants::GRID_OFFSET_X, static_cast<float>(Constants::CELL_SIZE) * i + static_cast<float>(Constants::CELL_SIZE) / 2 + Constants::LINES_WIDTH * i + Constants::GRID_OFFSET_Y});
                 window.draw(*symbol);
             }
             break;

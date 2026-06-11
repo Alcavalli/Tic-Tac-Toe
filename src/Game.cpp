@@ -21,15 +21,23 @@ void Game::run()
                 {
                 case CellStatus::Empty:
                     if (table.isFull())
-                        stato_gioco = GameStatus::Draw;
+                    {
+                        prossimo_stato = GameStatus::Draw;
+                        restart_waiting = true;
+                        restart_clock.restart();
+                    }
                     else
                         turno_corrente = CellStatus::Player1;
                     break;
                 case CellStatus::Player1:
-                    stato_gioco = GameStatus::Player1Win;
+                    prossimo_stato = GameStatus::Player1Win;
+                    restart_waiting = true;
+                    restart_clock.restart();
                     break;
                 case CellStatus::Player2:
-                    stato_gioco = GameStatus::Player2Win;
+                    prossimo_stato = GameStatus::Player2Win;
+                    restart_waiting = true;
+                    restart_clock.restart();
                     break;
                 }
             }
