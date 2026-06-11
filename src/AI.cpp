@@ -3,12 +3,12 @@
 
 AI::AI(Difficulty diff) : difficulty(diff), rng(std::random_device{}()) {}
 
-int AI::minimax(Grid table, bool is_maximizing)
+int AI::minimax(Grid table, bool is_maximizing, int depth)
 {
     if (table.checkWinner() == CellStatus::Player1)
-        return -10;
+        return -10 + depth;
     if (table.checkWinner() == CellStatus::Player2)
-        return 10;
+        return 10 - depth;
     if (table.isFull())
         return 0;
 
@@ -20,7 +20,7 @@ int AI::minimax(Grid table, bool is_maximizing)
                 if (table.getCell(i, j) == CellStatus::Empty)
                 {
                     table.setCell(i, j, CellStatus::Player2);   //* Definiamo l'AI come player 2
-                    int score{minimax(table, false)};
+                    int score{minimax(table, false, depth + 1)};
                     table.clearCell(i, j);          //! Serve ad annullare l'ultima mossa
                     best = std::max(best, score);
                 }
@@ -34,7 +34,7 @@ int AI::minimax(Grid table, bool is_maximizing)
                 if (table.getCell(i, j) == CellStatus::Empty)
                 {
                     table.setCell(i, j, CellStatus::Player1);   //* Definiamo l'utente come player 1
-                    int score{minimax(table, true)};
+                    int score{minimax(table, true, depth + 1)};
                     table.clearCell(i, j);          //! Serve ad annullare l'ultima mossa
                     best = std::min(best, score);
                 }
