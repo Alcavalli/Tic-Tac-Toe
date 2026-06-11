@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game match(GameMode::PvE, Difficulty::Easy);
+    Game match{};       //? Usa le graffe al posto delle () se al costruttore non vuoi mandare nulla
     match.run();
     return 0;
 }
