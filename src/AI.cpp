@@ -6,9 +6,9 @@ AI::AI(Difficulty diff) : difficulty(diff), rng(std::random_device{}()) {}
 int AI::minimax(Grid table, bool is_maximizing)
 {
     if (table.checkWinner() == CellStatus::Player1)
-        return 10;
-    if (table.checkWinner() == CellStatus::Player2)
         return -10;
+    if (table.checkWinner() == CellStatus::Player2)
+        return 10;
     if (table.isFull())
         return 0;
 
@@ -84,11 +84,11 @@ std::pair<int, int> AI::makeMove(const Grid& table)
             break;
         case Difficulty::Medium:
         {
-            std::uniform_int_distribution<int> dis(0, 1);
+            std::uniform_int_distribution<int> dis(0, 2);
             if (dis(rng))
-                return randomMove(table);
+                return getBestMove(table);      //? Per la difficoltà media 67% usa minimax, 33% casuale
             else
-                return getBestMove(table);
+                return randomMove(table);
             break;
         }
         case Difficulty::Hard:

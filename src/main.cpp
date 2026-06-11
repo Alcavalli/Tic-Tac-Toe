@@ -2,7 +2,7 @@
 
 int main()
 {
-    Game match(GameMode::PvE, Difficulty::Hard);
+    Game match(GameMode::PvE, Difficulty::Medium);
     match.run();
     return 0;
 }
