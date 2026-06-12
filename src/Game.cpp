@@ -55,6 +55,67 @@ void Game::run()
     }
 }
 
+void Game::handleClick(sf::Vector2i pos)
+{
+    switch (stato_gioco)
+    {
+    case GameStatus::Menu:
+        if (renderer.getButton(ButtonTypes::PvP)->isClicked(pos))
+        {
+            reset();
+            mode = GameMode::PvP;
+            stato_gioco = GameStatus::InProgress;
+        }
+        else if (renderer.getButton(ButtonTypes::Easy)->isClicked(pos))
+        {
+            mode = GameMode::PvE;
+            environment = AI(Difficulty::Easy);
+            stato_gioco = GameStatus::OrderSelection;
+        }
+        else if (renderer.getButton(ButtonTypes::Mid)->isClicked(pos))
+        {
+            mode = GameMode::PvE;
+            environment = AI(Difficulty::Medium);
+            stato_gioco = GameStatus::OrderSelection;
+        }
+        else if (renderer.getButton(ButtonTypes::Hard)->isClicked(pos))
+        {
+            mode = GameMode::PvE;
+            environment = AI(Difficulty::Hard);
+            stato_gioco = GameStatus::OrderSelection;
+        }
+        break;
+    case GameStatus::OrderSelection:
+        if (renderer.getButton(ButtonTypes::First)->isClicked(pos))
+        {
+            reset();
+            stato_gioco = GameStatus::InProgress;
+        }
+        else if (renderer.getButton(ButtonTypes::Second)->isClicked(pos))
+        {
+            reset();
+            stato_gioco = GameStatus::InProgress;
+            ai_waiting = true;
+            ai_clock.restart();
+        }
+        else if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
+        {
+            mode = GameMode::PvE;
+            environment = AI(Difficulty::Easy);
+            stato_gioco = GameStatus::Menu;
+        }
+        break;
+    case GameStatus::InProgress:
+        if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
+            stato_gioco = GameStatus::Menu;
+        else
+            update((pos.y - Constants::GRID_OFFSET_Y) / Constants::CELL_SIZE, (pos.x - Constants::GRID_OFFSET_X) / Constants::CELL_SIZE); //! Ricorda: riga e colonna, quindi y e x (non x e y)
+        break;
+    default:
+        break;
+    }
+}
+
 void Game::processInput()
 {
     while (const std::optional<sf::Event> event{window.pollEvent()})
@@ -65,66 +126,10 @@ void Game::processInput()
         if (const auto *mouseClick{event->getIf<sf::Event::MouseButtonPressed>()})
         {
             if (mouseClick->button == sf::Mouse::Button::Left)
-            {
-                sf::Vector2i pos = mouseClick->position;
-                switch (stato_gioco)
-                {
-                case GameStatus::Menu:
-                    if (renderer.getButton(ButtonTypes::PvP)->isClicked(pos))
-                    {
-                        reset();
-                        mode = GameMode::PvP;
-                        stato_gioco = GameStatus::InProgress;
-                    }
-                    else if (renderer.getButton(ButtonTypes::Easy)->isClicked(pos))
-                    {
-                        mode = GameMode::PvE;
-                        environment = AI(Difficulty::Easy);
-                        stato_gioco = GameStatus::OrderSelection;
-                    }
-                    else if (renderer.getButton(ButtonTypes::Mid)->isClicked(pos))
-                    {
-                        mode = GameMode::PvE;
-                        environment = AI(Difficulty::Medium);
-                        stato_gioco = GameStatus::OrderSelection;
-                    }
-                    else if (renderer.getButton(ButtonTypes::Hard)->isClicked(pos))
-                    {
-                        mode = GameMode::PvE;
-                        environment = AI(Difficulty::Hard);
-                        stato_gioco = GameStatus::OrderSelection;
-                    }
-                    break;
-                case GameStatus::OrderSelection:
-                    if (renderer.getButton(ButtonTypes::First)->isClicked(pos))
-                    {
-                        reset();
-                        stato_gioco = GameStatus::InProgress;
-                    }
-                    else if (renderer.getButton(ButtonTypes::Second)->isClicked(pos))
-                    {
-                        reset();
-                        stato_gioco = GameStatus::InProgress;
-                        ai_waiting = true;
-                        ai_clock.restart();
-                    }
-                    else if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
-                    {
-                        mode = GameMode::PvE;
-                        environment = AI(Difficulty::Easy);
-                        stato_gioco = GameStatus::Menu;
-                    }
-                    break;
-                case GameStatus::InProgress:
-                    if (renderer.getButton(ButtonTypes::Back)->isClicked(pos))
-                        stato_gioco = GameStatus::Menu;
-                    else
-                        update((mouseClick->position.y - Constants::GRID_OFFSET_Y) / Constants::CELL_SIZE, (mouseClick->position.x - Constants::GRID_OFFSET_X) / Constants::CELL_SIZE); //! Ricorda: riga e colonna, quindi y e x (non x e y)
-                    break;
-                default:
-                    break;
-                }
-            }
+                handleClick(mouseClick->position);
+
+            if (const auto* touch{event->getIf<sf::Event::TouchBegan>()})
+                handleClick(sf::Vector2i(touch->position));
         }
 
         if (const auto *keyPress{event->getIf<sf::Event::KeyPressed>()})

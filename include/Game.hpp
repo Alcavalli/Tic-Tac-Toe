@@ -20,6 +20,7 @@ private:
 public:
     Game(GameMode mode = GameMode::PvE, Difficulty diff = Difficulty::Easy);
     void run();
+    void handleClick(sf::Vector2i pos);
     void processInput();
     void update(int row, int col);
     void render();
